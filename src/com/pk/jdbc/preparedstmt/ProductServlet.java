@@ -1,5 +1,12 @@
 package com.pk.jdbc.preparedstmt;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -7,13 +14,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 @WebServlet("/ProductServlet")
 public class ProductServlet extends HttpServlet {
@@ -25,10 +25,9 @@ public class ProductServlet extends HttpServlet {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			ServletContext context = config.getServletContext();
-			con = DriverManager.getConnection(context.getInitParameter("dbUrl"), 
-											 context.getInitParameter("dbUser"),
-											 context.getInitParameter("dbPass"));
-			
+			con = DriverManager.getConnection(context.getInitParameter("dbUrl"), context.getInitParameter("dbUser"),
+					context.getInitParameter("dbPass"));
+
 			stmt = con.prepareStatement("insert into product values(?,?,?,?)");
 		}
 
