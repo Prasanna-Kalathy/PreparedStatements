@@ -1,6 +1,7 @@
 package com.pk.jdbc.preparedstmt;
 
 import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,7 +24,11 @@ public class ProductServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/mydb", "student", "student");
+			ServletContext context = config.getServletContext();
+			con = DriverManager.getConnection(context.getInitParameter("dbUrl"), 
+											 context.getInitParameter("dbUser"),
+											 context.getInitParameter("dbPass"));
+			
 			stmt = con.prepareStatement("insert into product values(?,?,?,?)");
 		}
 
